@@ -1,4 +1,14 @@
 const inquirer = require('inquirer')
+
+const return_menu = [{
+    type: 'input',
+    message: 'ENTER OK TO RETURN TO MAIN MENU',
+    name: 'ok',
+    validate: (answer) => {
+        if (answer == 'ok' || answer == 'OK') { return true }
+        else { return 'YOU MUST ENTER OK TO PROCEED!' }
+    }
+}]
 const main_menu_prompt = [{
     type: 'list',
     name: 'main_menu',
@@ -17,25 +27,52 @@ const main_menu_prompt = [{
         'ADD EMPLOYEE',
         new inquirer.Separator(),
         'UPDATE EXISTING EMPLOYEE',
+        new inquirer.Separator(),
+        'EXIT PROGRAM',
         new inquirer.Separator()
     ]
 }]
 
-
 const add_dept_prompt = [{
     type: 'input',
-    name: 'dept_title',
-    message: 'TITLE OF DEPARTMENT TO CREATE?'
+    name: 'dept_name',
+    message: 'NAME OF DEPARTMENT TO CREATE?'
+},
+{
+    type: 'input',
+    name: 'dept_id',
+    message: 'ID NUMBER OF NEW DEPARTMENT?'
 }];
+
 const add_role_prompt = [{
     type: 'input',
-    name: 'role_title',
+    name: 'title',
     message: 'TITLE OF ROLE TO CREATE?'
+},
+{
+    type: 'input',
+    name: 'salary',
+    message: 'SALARY OF NEW ROLE?'
+},
+{
+    type: 'input',
+    name: 'role_id',
+    message: 'ID NUMBER OF NEW ROLE?'
 }];
 const add_emp_prompt = [{
     type: 'input',
-    name: 'emp_name',
-    message: 'NAME OF EMPLOYEE TO ADD?'
+    name: 'first_name',
+    message: 'FIRST NAME OF EMPLOYEE TO ADD?'
+},
+{
+    type: 'input',
+    name: 'last_name',
+    message: 'LAST NAME OF EMPLOYEE TO ADD?'
+},
+{
+    type: 'input',
+    name: 'emp_id',
+    message: 'ID NUMBER OF NEW EMPLOYEE?'
 }];
 const upd_emp_role_prompt = [{
     type: 'input',
@@ -49,6 +86,7 @@ const upd_emp_role_prompt = [{
 }];
 
 module.exports = {
+    return_menu,
     main_menu_prompt,
     add_dept_prompt,
     add_role_prompt,
