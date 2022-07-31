@@ -37,11 +37,6 @@ const add_dept_prompt = [{
     type: 'input',
     name: 'dept_name',
     message: 'NAME OF DEPARTMENT TO CREATE?'
-},
-{
-    type: 'input',
-    name: 'dept_id',
-    message: 'ID NUMBER OF NEW DEPARTMENT?'
 }];
 
 const add_role_prompt = [{
@@ -55,9 +50,9 @@ const add_role_prompt = [{
     message: 'SALARY OF NEW ROLE?'
 },
 {
-    type: 'input',
-    name: 'role_id',
-    message: 'ID NUMBER OF NEW ROLE?'
+    type: 'list',
+    name: 'dep_choices',
+    message: 'DEPARTMENT CONTAINING NEW ROLE?'
 }];
 const add_emp_prompt = [{
     type: 'input',
@@ -70,9 +65,9 @@ const add_emp_prompt = [{
     message: 'LAST NAME OF EMPLOYEE TO ADD?'
 },
 {
-    type: 'input',
-    name: 'emp_id',
-    message: 'ID NUMBER OF NEW EMPLOYEE?'
+    type: 'list',
+    name: 'dep_choices',
+    message: 'ROLE OF NEW EMPLOYEE?'
 }];
 const upd_emp_role_prompt = [{
     type: 'input',
@@ -93,3 +88,4 @@ module.exports = {
     add_emp_prompt,
     upd_emp_role_prompt
 }
+

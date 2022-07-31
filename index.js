@@ -5,84 +5,76 @@ const figlet = require('figlet');
 const chalk = require('chalk');
 const cTable = require('console.table');
 const db = require('./db/connection')
-const { 
+const {
     return_menu, main_menu_prompt, add_dept_prompt, add_role_prompt, add_emp_prompt, upd_emp_role_prompt
 } = require('./libs/prompts');
 
+const {getDependantChoices, printTableReturn} = require('./libs/utilities')
+
 // WRITE THESE FUNCTIONS!!!!!!
+
+
 function exitProgram() {
     console.log('GOODBYE!')
     process.exit(0)
 }
-function updEmp() {}
+function updEmp() { }
+
+
+// ADD EMPLOYEE
 function addEmp() {
+    getDependantChoices('roles', add_emp_prompt)
     inquirer.prompt(add_emp_prompt)
-        .then(data => {
-            let { first_name, last_name, emp_id } = data
-            db.query(`INSERT INTO emps (emp_id, first_name, last_name) VALUES (${emp_id}, '${first_name}', '${last_name}')`)
-            console.log(`EMPLOYEE ${first_name} ${last_name} ADDED!`)
-            mainMenu()
-        });
+        // .then(data => {
+        //     let { first_name, last_name } = data
+        //     db.query(`INSERT INTO emps (first_name, last_name) VALUES ('${first_name}', '${last_name}')`)
+        //     console.log(`EMPLOYEE ${first_name} ${last_name} ADDED!`)
+        //     mainMenu()
+        // });
 }
+
+
+function promptThenQuery(prompt, query, callback) {
+    inquirer.prompt(prompt)
+        .then (data => {
+            let
+        }) 
+}
+
+// ADD ROLE
 function addRole() {
+    getDependantChoices('depts', add_role_prompt)
     inquirer.prompt(add_role_prompt)
         .then(data => {
-            let { role_id, title, salary, dept_id } = data
-            db.query(`INSERT INTO roles (role_id, title, salary) VALUES (${role_id}, '${title}', ${salary})`)
-            console.log(`ROLE ${title} CREATED!`)
-            mainMenu()
-        });
+            console.log(data)
+            // let { title, salary } = data
+            // db.query(`INSERT INTO roles (title, salary) VALUES ('${title}', ${salary})`)
+            // console.log(`ROLE ${title} CREATED!`)
+            // mainMenu()
+        })
 }
-
-
-
-
-
-
-
+// ADD DEPARTMENT
 function addDept() {
     inquirer.prompt(add_dept_prompt)
         .then(data => {
-            let { dept_name, dept_id } = data
-            db.query(`INSERT INTO depts (dept_id, dept_name) VALUES (${dept_id}, '${dept_name}')`)
+            let { dept_name } = data
+            db.query(`INSERT INTO depts (dept_name) VALUES ('${dept_name}')`)
             console.log(`DEPARTMENT ${dept_name} CREATED!`)
             mainMenu()
         });
 };
-
-
 // VIEW ALL EMPLOYEES
 function viewEmps() {
-    db.query('SELECT * FROM emps', (err, data) => {
-        if (err) console.log(err);
-        console.table(data);
-        return inquirer.prompt(return_menu)
-            .then(() => {
-                mainMenu()
-            });
-    });
+    printTableReturn('emps', return_menu, mainMenu)
+
 };
 // VIEW ALL ROLES
 function viewRoles() {
-    db.query('SELECT * FROM roles', (err, data) => {
-        if (err) console.log(err);
-        console.table(data);
-        return inquirer.prompt(return_menu)
-            .then(() => {
-                mainMenu()
-            });
-    });
+    printTableReturn('roles', return_menu, mainMenu)
 };
 // VIEW ALL DEPARTMENTS
 function viewDepts() {
-    db.query('SELECT * FROM depts', (err, data) => {
-        if (err) console.log(err);
-        console.table(data);
-        return inquirer.prompt(return_menu)
-            .then(() => {
-                mainMenu()
-            });
-    });
+    printTableReturn('depts', return_menu, mainMenu)
 };
 // MAIN MENU
 function mainMenu() {
@@ -99,6 +91,7 @@ function mainMenu() {
             if (selection === 'EXIT PROGRAM') exitProgram();
         })
 }
+
 // BEGIN EMPLOYEETRACKERBOT
 function figletBanner() {
     figlet('EMPLOYEETRACKERBOT!', function (err, banner) {
@@ -119,3 +112,4 @@ function figletBanner() {
 // CALLS
 figletBanner()
     .then(mainMenu)
+  
