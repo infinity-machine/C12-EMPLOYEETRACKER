@@ -36,30 +36,55 @@ function getDependantChoices(column, table, prompt) {
 // INSERT EMPLOYEE INTO DB
 function insertEmp(first_name, last_name, role_id) {
     db.query(`INSERT INTO emps (first_name, last_name, role_id) VALUES ('${first_name}', '${last_name}', ${role_id})`)
-    console.log(`EMPLOYEE ${first_name} ${last_name} ADDED!`)
 }
 // INSERT ROLE INTO DB
 function insertRole(title, salary, dept_id) {
     db.query(`INSERT INTO roles (title, salary, dept_id) VALUES ('${title}', ${salary}, ${dept_id})`)
-    console.log(`ROLE ${title} CREATED!`)
+
 }
 // INSERT DEPARTMENT INTO DB
 function insertDepartment(dept_name) {
     db.query(`INSERT INTO depts (dept_name) VALUES ('${dept_name}')`)
     console.log(`DEPARTMENT ${dept_name} CREATED!`)
 }
-// PRINTS TABLE FROM DB, RUNS A PROMPT, FIRES A CALLBACK
-function printTableReturn(table, prompt, callBack) {
-    db.query(`SELECT * FROM ${table}`, (err, data) => {
+
+// const sql_table_depts = 
+
+function promptThenCallback(prompt, callback) {
+    setTimeout(() => {
+        return inquirer.prompt(prompt)
+        .then(callback)
+    }, 1000);
+}
+function printEmps() {
+    db.query(`SELECT emp_id as "EMPLOYEE ID",
+    first_name as "FIRST NAME",
+    last_name as "LAST NAME",
+    role_id as "ROLE ID"
+    FROM emps`, (err, data) => {
         if (err) return console.log(err);
         console.table(data)
-        return inquirer.prompt(prompt)
-            .then(() => {
-                callBack()
-            });
+    })
+}
+function printRoles() {
+    db.query(`SELECT role_id as "ROLE ID",
+    title as TITLE,
+    salary as SALARY,
+    dept_id as "DEPT ID"
+    FROM roles`, (err, data) => {
+        if (err) return console.log(err);
+        console.table(data)
+    })
+}
+function printDepts() {
+    db.query(`SELECT dept_id AS "DEPT ID",
+    dept_name AS DEPARTMENT
+    FROM depts`, (err, data) => {
+        if (err) return console.log(err);
+        console.table(data)
     })
 }
 // EXPORTS
 module.exports = {
-    getDependantChoices, matchedChoiceQueryInsert, insertDepartment, insertRole, printTableReturn
+    getDependantChoices, printDepts, printRoles, printEmps, promptThenCallback, matchedChoiceQueryInsert, insertDepartment, insertRole
 }

@@ -9,7 +9,7 @@ const db = require('./db/connection')
 const {
     return_menu, main_menu_prompt, add_dept_prompt, add_role_prompt, add_emp_prompt, upd_emp_role_prompt
 } = require('./libs/prompts');
-const {getDependantChoices, matchedChoiceQueryInsert, insertDepartment, insertRole, printTableReturn} = require('./libs/utilities')
+const {getDependantChoices, printDepts, printRoles, printEmps, promptThenCallback, matchedChoiceQueryInsert, insertDepartment, insertRole} = require('./libs/utilities')
 // EXIT PROGRAM
 function exitProgram() {
     console.log('GOODBYE!')
@@ -50,16 +50,18 @@ function addDept() {
 };
 // VIEW ALL EMPLOYEES
 function viewEmps() {
-    printTableReturn('emps', return_menu, mainMenu)
-
+    printEmps()
+    promptThenCallback(return_menu, mainMenu)
 };
 // VIEW ALL ROLES
 function viewRoles() {
-    printTableReturn('roles', return_menu, mainMenu)
+    printRoles()
+    promptThenCallback(return_menu, mainMenu)
 };
 // VIEW ALL DEPARTMENTS
 function viewDepts() {
-    printTableReturn('depts', return_menu, mainMenu)
+    printDepts()
+    promptThenCallback(return_menu, mainMenu)
 };
 // MAIN MENU
 function mainMenu() {
@@ -92,8 +94,6 @@ function figletBanner() {
         }, 2000);
     });
 }
-
-
 // CALLS
 figletBanner()
     .then(mainMenu)

@@ -8,7 +8,7 @@ Use emp_data;
 
 -- SELECT * FROM roles;
 
-insert into depts (dept_id, dept_name) VALUES (1, 'kitchen'), (2, 'laboratory'), (3, 'farm');
+-- insert into depts (dept_id, dept_name) VALUES (1, 'kitchen'), (2, 'laboratory'), (3, 'farm');
 
 -- SELECT dept_id FROM depts WHERE dept_name = 'kitchen'
 SELECT * FROM emps
