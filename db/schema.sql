@@ -24,3 +24,4 @@ CREATE TABLE emps(
     role_id INT,
     FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
+

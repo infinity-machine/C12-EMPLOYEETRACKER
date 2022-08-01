@@ -1,5 +1,5 @@
 const inquirer = require('inquirer')
-
+// OK TO RETURN TO MAIN MENU
 const return_menu = [{
     type: 'input',
     message: 'ENTER OK TO RETURN TO MAIN MENU',
@@ -9,6 +9,7 @@ const return_menu = [{
         else { return 'YOU MUST ENTER OK TO PROCEED!' }
     }
 }]
+// MAIN MENU
 const main_menu_prompt = [{
     type: 'list',
     name: 'main_menu',
@@ -32,13 +33,13 @@ const main_menu_prompt = [{
         new inquirer.Separator()
     ]
 }]
-
+// ADD DEPARTMENT
 const add_dept_prompt = [{
     type: 'input',
     name: 'dept_name',
     message: 'NAME OF DEPARTMENT TO CREATE?'
 }];
-
+// ADD ROLE
 const add_role_prompt = [{
     type: 'input',
     name: 'title',
@@ -51,9 +52,10 @@ const add_role_prompt = [{
 },
 {
     type: 'list',
-    name: 'dep_choices',
+    name: 'dept_choice',
     message: 'DEPARTMENT CONTAINING NEW ROLE?'
 }];
+// ADD EMPLOYEE
 const add_emp_prompt = [{
     type: 'input',
     name: 'first_name',
@@ -66,7 +68,7 @@ const add_emp_prompt = [{
 },
 {
     type: 'list',
-    name: 'dep_choices',
+    name: 'role_choice',
     message: 'ROLE OF NEW EMPLOYEE?'
 }];
 const upd_emp_role_prompt = [{
@@ -79,7 +81,7 @@ const upd_emp_role_prompt = [{
     name: 'upd_emp_role',
     message: 'ENTER NEW EMPLOYEE ROLE'
 }];
-
+//EXPORTS
 module.exports = {
     return_menu,
     main_menu_prompt,
