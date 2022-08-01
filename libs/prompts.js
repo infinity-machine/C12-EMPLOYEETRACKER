@@ -72,14 +72,14 @@ const add_emp_prompt = [{
     message: 'ROLE OF NEW EMPLOYEE?'
 }];
 const upd_emp_role_prompt = [{
-    type: 'input',
+    type: 'list',
     name: 'upd_emp_select',
-    message: 'NAME OF EMPLOYEE TO UPDATE?'
+    message: 'SELECT EMPLOYEE TO UPDATE'
 },
 {
-    type: 'input',
+    type: 'list',
     name: 'upd_emp_role',
-    message: 'ENTER NEW EMPLOYEE ROLE'
+    message: 'SELECT NEW EMPLOYEE ROLE'
 }];
 //EXPORTS
 module.exports = {

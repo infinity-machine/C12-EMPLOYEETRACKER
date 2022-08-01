@@ -9,17 +9,31 @@ const db = require('./db/connection')
 const {
     return_menu, main_menu_prompt, add_dept_prompt, add_role_prompt, add_emp_prompt, upd_emp_role_prompt
 } = require('./libs/prompts');
-const {getDependantChoices, printDepts, printRoles, printEmps, promptThenCallback, matchedChoiceQueryInsert, insertDepartment, insertRole} = require('./libs/utilities')
+const {getDependantChoices, printDepts, printRoles, printEmps, promptThenCallback, matchedChoiceQueryInsert, insertDepartment, updateEmpRole} = require('./libs/utilities')
 // EXIT PROGRAM
 function exitProgram() {
     console.log('GOODBYE!')
     process.exit(0)
 }
 // UPDATE EMPLOYEE
-function updEmp() { }
+function updEmp() {
+    getDependantChoices('first_name, last_name', 'emps', upd_emp_role_prompt, 0);
+    getDependantChoices('title', 'roles', upd_emp_role_prompt, 1)
+    setTimeout(() => {
+        inquirer.prompt(upd_emp_role_prompt)
+            .then(data => {
+                let {upd_emp_select, upd_emp_role} = data
+                updateEmpRole(upd_emp_select, upd_emp_role)
+                console.log(`ROLE OF ${upd_emp_select} HAS BEEN CHANGED TO ${upd_emp_role}`)
+                mainMenu()
+            })
+    }, 250);
+    // 
+//     console.log(upd_emp_role_prompt)
+}
 // ADD EMPLOYEE
 function addEmp() {
-    getDependantChoices('title', 'roles', add_emp_prompt)
+    getDependantChoices('title', 'roles', add_emp_prompt, 2)
     inquirer.prompt(add_emp_prompt)
         .then(data => {
             let { first_name, last_name, role_choice } = data
@@ -30,7 +44,7 @@ function addEmp() {
 }
 // ADD ROLE
 function addRole() {
-    getDependantChoices('dept_name', 'depts', add_role_prompt)
+    getDependantChoices('dept_name', 'depts', add_role_prompt, 2)
     inquirer.prompt(add_role_prompt)
         .then(data => {
             let { title, salary, dept_choice} = data
@@ -91,7 +105,7 @@ function figletBanner() {
     return new Promise(resolve => {
         setTimeout(() => {
             resolve('resolved');
-        }, 2000);
+        }, 1000);
     });
 }
 // CALLS

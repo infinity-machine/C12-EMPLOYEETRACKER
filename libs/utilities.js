@@ -3,13 +3,20 @@ const inquirer = require('inquirer')
 const {
     return_menu, main_menu_prompt, add_dept_prompt, add_role_prompt, add_emp_prompt, upd_emp_role_prompt
 } = require('./prompts')
-
+// UPDATE EMPLOYEE ROLE IN DB
+function updateEmpRole(emp, role) {
+    db.query(`SELECT role_id FROM roles WHERE title = '${role}'`, (err, data) => {
+        choice_id = Object.values(data.pop())[0]
+        emp = emp.split(' ')[1]
+        db.query(`UPDATE emps SET role_id = ${choice_id} WHERE last_name = '${emp}'`)
+    })
+}
 // REPLACES NAME VALUE FROM DB TABLE TO CORRESPONDING ID VALUE, CALLS INSERT FUNCTION
 function matchedChoiceQueryInsert(table, first, second, choice) {
     if (arguments[0] === 'roles') {
         db.query(`SELECT dept_id FROM depts WHERE dept_name = '${choice}'`, (err, data) => {
             if (err) return console.log(err)
-            choice_id= Object.values(data.pop())[0]
+            choice_id = Object.values(data.pop())[0]
             insertRole(first, second, choice_id)
         })
     }
@@ -21,16 +28,20 @@ function matchedChoiceQueryInsert(table, first, second, choice) {
         })
     }
 }
-
 // POPULATES PROMPT CHOICES WITH UPDATED DATA FROM SEPERATE TABLE
-function getDependantChoices(column, table, prompt) {
+function getDependantChoices(column, table, prompt, prompt_index) {
     let dependant_choices = []
     db.query(`SELECT ${column} FROM ${table}`, (err, data) => {
         if (err) return console.log(err);
         for (i = 0; i < data.length; i++) {
-            dependant_choices.push(Object.values(data[i])[0])
-            prompt[prompt.length - 1].choices = dependant_choices
+            if (Object.values(data[i]).length === 1) {
+                dependant_choices.push(Object.values(data[i])[0])
+            }
+            if (Object.values(data[i]).length === 2) {
+                dependant_choices.push(`${Object.values(data[i])[0]} ${Object.values(data[i])[1]}`)
+            }
         }
+        prompt[prompt_index].choices = dependant_choices
     })
 }
 // INSERT EMPLOYEE INTO DB
@@ -53,8 +64,8 @@ function insertDepartment(dept_name) {
 function promptThenCallback(prompt, callback) {
     setTimeout(() => {
         return inquirer.prompt(prompt)
-        .then(callback)
-    }, 1000);
+            .then(callback)
+    }, 500);
 }
 function printEmps() {
     db.query(`SELECT emp_id as "EMPLOYEE ID",
@@ -86,5 +97,5 @@ function printDepts() {
 }
 // EXPORTS
 module.exports = {
-    getDependantChoices, printDepts, printRoles, printEmps, promptThenCallback, matchedChoiceQueryInsert, insertDepartment, insertRole
+    getDependantChoices, printDepts, printRoles, printEmps, promptThenCallback, matchedChoiceQueryInsert, insertDepartment, insertRole, updateEmpRole
 }
